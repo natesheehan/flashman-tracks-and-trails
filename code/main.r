@@ -8,8 +8,8 @@ fal_small = resize_matrix(fal_mat, 0.25)
 
 
 # Create Basemap based on lat long range of site --------------------------
-lat_range = c(50.159382, 50.161639)
-long_range = c(-5.098562, -5.094943)
+lat_range = c(50.158314, 50.162294)
+long_range = c(-5.102861,-5.093012)
 
 utm_bbox = convert_coords(lat = lat_range,
                           long = long_range,
