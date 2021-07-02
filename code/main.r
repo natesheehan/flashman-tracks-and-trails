@@ -73,16 +73,19 @@ resting_area = st_transform(resting_area, crs = crs(fal_school))
 dd = subset(pp, select = "geometry")
 View(dd)
 dd$name = "Table top"
-> dd = dd[-(16:22),]
-> dd = dd[-(1:7),]
-> dd = dd[-(8:14),]
-> dd = dd[-(8),]
-> dd = dd[-(10),]
-> dd = dd[-(1:4),]
+dd = dd[-(16:22),]
+dd = dd[-(1:7),]
+dd = dd[-(8:14),]
+dd = dd[-(8),]
+dd = dd[-(10),]
+dd = dd[-(1:4),]
 dd$name[1] = "Resting Area"
 dd$name[2] = "Drain"
 dd$name[3] = "Scrub to clear"
-dd$name[4] = "Turn"
+dd$name[4] = "Path to clear"
+dd$name[5] = "Resting Area"
+dd$name[1] = "Table top"
+
 dd = st_transform(dd, crs = crs(fal_school))
 # Plot map ----------------------------------------------------------------
 basemap %>%
@@ -109,17 +112,8 @@ basemap %>%
       color = "black",
       heightmap = fal_zoom_mat
     )
-  ) %>%
-  add_overlay(
-    generate_line_overlay(
-      fal_cyclepaths,
-      extent = extent_zoomed,
-      linewidth = 6,
-      color = "gray10",
-      heightmap = fal_zoom_mat
-    )
-  ) %>%
-  plot_map()
+  ) %>% plot_map(title_text = "Falmouth School Bike Track (Flashman Track and Trails)", title_offset = c(15,15),
+           title_bar_color = "grey5", title_color = "white", title_bar_alpha = 1)
 
 basemap %>%
   add_overlay(
@@ -151,8 +145,10 @@ render_camera(
   zoom = 0.5,
   fov = 60
 )
-render_snapshot()
-
+render_snapshot(
+  filename = "Plots/3d-track.png",
+  clear = T
+)
 #Plot only route
 l = points2line_trajectory(pp)
 plot(l)

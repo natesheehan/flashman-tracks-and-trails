@@ -5,7 +5,8 @@ pkgs = c("EAlidaR",
          "raster",
          "rayshader",
          "magick",
-         "osmdata")
+         "osmdata",
+         "av")
 
 #Install pkgs
 installed_packages = pkgs %in% rownames(installed.packages())
