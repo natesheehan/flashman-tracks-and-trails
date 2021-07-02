@@ -6,7 +6,6 @@ source("code/get_data.r")
 fal_mat = raster_to_matrix(fal_school)
 fal_small = resize_matrix(fal_mat, 0.25)
 
-
 # Create Basemap based on lat long range of site --------------------------
 lat_range = c(50.159382, 50.161639)
 long_range = c(-5.098562, -5.094943)
@@ -52,6 +51,8 @@ fal_highway = opq(osm_bbox) %>%
   add_osm_feature("highway") %>%
   osmdata_sf()
 
+fal_roads = st_transform(fal_highway$osm_lines, crs = crs(fal_school))
+
 fal_footpaths = subset(fal_roads,
                        highway == "footway")
 
@@ -72,7 +73,7 @@ fal_roads = subset(
 fal_footpaths = st_transform(fal_footpaths$geometry, crs = crs(fal_school))
 fal_roads = st_transform(fal_roads$geometry, crs = crs(fal_school))
 fal_cyclepaths = st_transform(fal_cyclepaths$geometry, crs = crs(fal_school))
-resting_area = st_transform(resting_area$geometry, crs = crs(fal_school))
+resting_area = st_transform(resting_area, crs = crs(fal_school))
 
 # Plot map ----------------------------------------------------------------
 basemap %>%
@@ -91,33 +92,6 @@ basemap %>%
       extent = extent_zoomed,
       linewidth = 4,
       color = "black",
-      heightmap = fal_zoom_mat
-    )
-  ) %>%
-  add_overlay(
-    generate_line_overlay(
-      fal_footpaths,
-      extent = extent_zoomed,
-      linewidth = 2,
-      color = "grey10",
-      heightmap = fal_zoom_mat
-    )
-  ) %>%
-  add_overlay(
-    generate_line_overlay(
-      fal_roads,
-      extent = extent_zoomed,
-      linewidth = 2,
-      color = "grey20",
-      heightmap = fal_zoom_mat
-    )
-  ) %>%
-  add_overlay(
-    generate_line_overlay(
-      fal_cyclepaths,
-      extent = extent_zoomed,
-      linewidth = 2,
-      color = "grey30",
       heightmap = fal_zoom_mat
     )
   ) %>%
