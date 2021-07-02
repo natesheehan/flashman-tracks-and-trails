@@ -9,7 +9,7 @@ fal_small = resize_matrix(fal_mat, 0.25)
 
 # Create Basemap based on lat long range of site --------------------------
 lat_range = c(50.159382, 50.161639)
-long_range = c(-5.098562,-5.094943)
+long_range = c(-5.098562, -5.094943)
 
 utm_bbox = convert_coords(lat = lat_range,
                           long = long_range,
@@ -94,9 +94,35 @@ basemap %>%
       heightmap = fal_zoom_mat
     )
   ) %>%
+  add_overlay(
+    generate_line_overlay(
+      fal_footpaths,
+      extent = extent_zoomed,
+      linewidth = 2,
+      color = "grey10",
+      heightmap = fal_zoom_mat
+    )
+  ) %>%
+  add_overlay(
+    generate_line_overlay(
+      fal_roads,
+      extent = extent_zoomed,
+      linewidth = 2,
+      color = "grey20",
+      heightmap = fal_zoom_mat
+    )
+  ) %>%
+  add_overlay(
+    generate_line_overlay(
+      fal_cyclepaths,
+      extent = extent_zoomed,
+      linewidth = 2,
+      color = "grey30",
+      heightmap = fal_zoom_mat
+    )
+  ) %>%
   plot_map()
 
 #Plot only route
 l = points2line_trajectory(pp)
 plot(l)
-
